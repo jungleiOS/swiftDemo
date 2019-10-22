@@ -10,21 +10,83 @@ import UIKit
 
 class DemoTabBarController: UITabBarController {
 
+    var demoHomeVC:DemoHomeVC!
+    var demoClassifyVC:DemoClassifyVC!
+    var demoShoppingCartVC:DemoShoppingCartVC!
+    var demoOrderVC:DemoOrderVC!
+    
+    let shopNormalImage = UIImage.init(named: "商店")!
+    let shopSelectedImage = UIImage.init(named: "商店 (1)")!
+    
+    let classifyNormalImage = UIImage.init(named: "物流")!
+    let classifySelectedImage = UIImage.init(named: "物流 (1)")!
+    
+    let shoppingCartNormalImage = UIImage.init(named: "购物车")!
+    let shoppingCartSelectedImage = UIImage.init(named: "购物车 (1)")!
+    
+    let orderNormalImage = UIImage.init(named: "下单")!
+    let orderSelectedImage = UIImage.init(named: "下单 (1)")!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
+        
+        let normalColor:UIColor = self.HexColor(hex: 0x707070, alpha: 1)
+        let selectedColor:UIColor = self.HexColor(hex: 0xf0b10c, alpha: 1)
+        
+        self.demoHomeVC = DemoHomeVC.init()
+        self.demoClassifyVC = DemoClassifyVC.init()
+        self.demoShoppingCartVC = DemoShoppingCartVC.init()
+        self.demoOrderVC = DemoOrderVC.init()
+        
+        self.setTabBarWithChildVC(childVC: self.demoHomeVC,
+                                  tabBarTitle: "商店",
+                                  tabBarNormalColor: normalColor,
+                                  tabBarSelectedColor: selectedColor,
+                                  tabBarNormalImage: shopNormalImage,
+                                  tabBarSelectedImage: shopSelectedImage)
+        
+        self.setTabBarWithChildVC(childVC: self.demoClassifyVC,
+                                  tabBarTitle: "物流",
+                                  tabBarNormalColor: normalColor,
+                                  tabBarSelectedColor: selectedColor,
+                                  tabBarNormalImage: classifyNormalImage,
+                                  tabBarSelectedImage: classifySelectedImage)
+        
+        self.setTabBarWithChildVC(childVC: self.demoShoppingCartVC,
+                                  tabBarTitle: "购物车",
+                                  tabBarNormalColor: normalColor,
+                                  tabBarSelectedColor: selectedColor,
+                                  tabBarNormalImage: shoppingCartNormalImage,
+                                  tabBarSelectedImage: shoppingCartSelectedImage)
+        
+        self.setTabBarWithChildVC(childVC: self.demoOrderVC,
+                                  tabBarTitle: "下单",
+                                  tabBarNormalColor: normalColor,
+                                  tabBarSelectedColor: selectedColor,
+                                  tabBarNormalImage: orderNormalImage,
+                                  tabBarSelectedImage: orderSelectedImage)
+        
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func HexColor(hex:integer_t, alpha:CGFloat) -> UIColor
+    {
+        return UIColor(red: CGFloat((hex >> 16) & 0xff)/255.0, green: CGFloat((hex >> 8) & 0xff)/255.0, blue: CGFloat(hex & 0xff)/255.0, alpha: alpha)
     }
-    */
-
+    
+    func setTabBarWithChildVC(childVC:UIViewController, tabBarTitle:String, tabBarNormalColor:UIColor, tabBarSelectedColor:UIColor, tabBarNormalImage:UIImage, tabBarSelectedImage:UIImage) -> Void {
+        let attrs:Dictionary = [
+            NSAttributedString.Key.foregroundColor:tabBarNormalColor,
+        ]
+        
+        let selectedAttrs:Dictionary = [
+            NSAttributedString.Key.foregroundColor:tabBarSelectedColor,
+        ]
+        childVC.tabBarItem.title = tabBarTitle
+        childVC.tabBarItem.image = tabBarNormalImage.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        childVC.tabBarItem.selectedImage = tabBarSelectedImage.withRenderingMode(UIImage.RenderingMode.alwaysOriginal)
+        childVC.tabBarItem.setTitleTextAttributes(attrs, for: UIControl.State.normal)
+        childVC.tabBarItem.setTitleTextAttributes(selectedAttrs, for: UIControl.State.selected)
+        self.addChild(childVC)
+    }
+    
 }

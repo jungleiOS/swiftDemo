@@ -7,24 +7,57 @@
 //
 
 import UIKit
+import PureLayout
 
-class DemoHomeVC: UIViewController {
-
+let kScreenWidth = UIScreen.main.bounds.size.width
+let kScreenHeight = UIScreen.main.bounds.size.height
+class DemoHomeVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
+    
+    let kCell = "cell"
+    
+    var collection:UICollectionView!
+    
     override func viewDidLoad() {
+    
         super.viewDidLoad()
+        
+        self.title = "1"
+        self.navigationController?.title = "2"
+        self.navigationItem.title = "3"
+        
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
+        navigationController?.navigationBar.barTintColor = UIColor.systemPink
+        navigationController?.navigationBar.isTranslucent = false
+        
+        self.view.backgroundColor = UIColor.orange
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = UICollectionView.ScrollDirection.vertical
+        layout.itemSize = CGSize(width: kScreenWidth, height: 44)
+        layout.minimumLineSpacing = 1;
+        layout.minimumInteritemSpacing = 0;
+        self.collection = UICollectionView(frame: CGRect.zero, collectionViewLayout: layout)
+        self.collection.backgroundColor = UIColor.white
+        self.collection.delegate = self
+        self.collection.dataSource = self
+        self.collection.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: kCell)
+        self.view.addSubview(self.collection)
 
-        // Do any additional setup after loading the view.
+        self.collection.autoPinEdge(toSuperviewSafeArea: ALEdge.top)
+        self.collection.autoPinEdge(toSuperviewSafeArea: ALEdge.bottom)
+        self.collection.autoPinEdge(toSuperviewEdge: ALEdge.left)
+        self.collection.autoPinEdge(toSuperviewEdge: ALEdge.right)
+        
     }
-
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 10
     }
-    */
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: kCell, for: indexPath)
+        cell.contentView.backgroundColor = UIColor.yellow
+        return cell
+    }
 
 }

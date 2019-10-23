@@ -11,19 +11,22 @@ import PureLayout
 
 let kScreenWidth = UIScreen.main.bounds.size.width
 let kScreenHeight = UIScreen.main.bounds.size.height
+let kNavBarHeight = UINavigationController.init().navigationBar.frame.size.height
+
+
 class DemoHomeVC: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
     
     let kCell = "cell"
-    
+
     var collection:UICollectionView!
+    
+    override func loadView() {
+        super.loadView()
+    }
     
     override func viewDidLoad() {
     
         super.viewDidLoad()
-        
-        self.title = "1"
-        self.navigationController?.title = "2"
-        self.navigationItem.title = "3"
         
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor:UIColor.white]
         navigationController?.navigationBar.barTintColor = UIColor.systemPink
@@ -42,11 +45,12 @@ class DemoHomeVC: UIViewController,UICollectionViewDelegate,UICollectionViewData
         self.collection.dataSource = self
         self.collection.register(UICollectionViewCell.classForCoder(), forCellWithReuseIdentifier: kCell)
         self.view.addSubview(self.collection)
-
+        
         self.collection.autoPinEdge(toSuperviewSafeArea: ALEdge.top)
         self.collection.autoPinEdge(toSuperviewSafeArea: ALEdge.bottom)
         self.collection.autoPinEdge(toSuperviewEdge: ALEdge.left)
         self.collection.autoPinEdge(toSuperviewEdge: ALEdge.right)
+        
         
     }
     

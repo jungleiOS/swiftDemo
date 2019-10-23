@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DemoTabBarController: UITabBarController {
+class DemoTabBarController: UITabBarController,UITabBarControllerDelegate {
 
     var demoHomeVC:DemoHomeVC!
     var demoClassifyVC:DemoClassifyVC!
@@ -29,6 +29,9 @@ class DemoTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.delegate = self;
+        self.navigationItem.title = "首页"
         
         let normalColor:UIColor = self.HexColor(hex: 0x707070, alpha: 1)
         let selectedColor:UIColor = self.HexColor(hex: 0xf0b10c, alpha: 1)
@@ -89,4 +92,22 @@ class DemoTabBarController: UITabBarController {
         self.addChild(childVC)
     }
     
+    func tabBarController(_ tabBarController: UITabBarController, shouldSelect viewController: UIViewController) -> Bool {
+        
+        if viewController.isEqual(self.demoHomeVC) {
+            self.navigationItem.title = "首页"
+        }
+        else if viewController.isEqual(self.demoClassifyVC) {
+            self.navigationItem.title = "分类"
+        }
+        else if viewController.isEqual(self.demoShoppingCartVC) {
+            self.navigationItem.title = "购物车"
+        }
+        else if viewController.isEqual(self.demoOrderVC) {
+            self.navigationItem.title = "订单"
+        }
+        
+        return true;
+        
+    }
 }
